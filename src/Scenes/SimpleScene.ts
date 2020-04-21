@@ -3,11 +3,22 @@ import * as Phaser from "Phaser";
 
 export default class SimpleScene extends Phaser.Scene
 {
+    private _clickCountText: Phaser.GameObjects.Text;
+
     private create(): void
     {
-        const helloButton = this.add.text(100, 100, "Hello Phaser!", { fill: "#0f0" });
-        helloButton.setInteractive();
+        let clickCount = 0;
+        this._clickCountText = this.add.text(50, 200, "");
 
-        helloButton.on("pointerover", () => { console.log("pointerover"); });
+        const clickButton = this.add.text(50, 100, "Click me!", { fill: "#0f0" })
+            .setInteractive()
+            .on("pointerdown", () => { this.UpdateClickCountText(++clickCount) });
+
+        this.UpdateClickCountText(clickCount);
+    }
+
+    private UpdateClickCountText(clickCount: number): void
+    {
+        this._clickCountText.setText(`Button has been clicked ${clickCount} times.`);
     }
 }
